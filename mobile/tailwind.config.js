@@ -4,7 +4,14 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        "baloo-regular": ["Baloo2_400Regular"],
+        "baloo-bold": ["Baloo2_700Bold"],
+        "roboto-regular": ["Roboto_400Regular"],
+        "roboto-bold": ["Roboto_700Regular"],
+      },
+    },
   },
   plugins: [],
 };
