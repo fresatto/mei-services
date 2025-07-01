@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-type HeaderProps = {
+export type HeaderProps = {
   title: string;
 };
 
