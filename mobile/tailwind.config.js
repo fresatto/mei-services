@@ -9,7 +9,7 @@ module.exports = {
         "baloo-regular": ["Baloo2_400Regular"],
         "baloo-bold": ["Baloo2_700Bold"],
         "roboto-regular": ["Roboto_400Regular"],
-        "roboto-bold": ["Roboto_700Regular"],
+        "roboto-bold": ["Roboto_700Bold"],
       },
     },
   },
