@@ -1,15 +1,34 @@
 import React from "react";
 import { Text, View } from "react-native";
+import { Controller, useForm } from "react-hook-form";
 
 import Layout from "@components/Layout";
 import Input from "@components/Input";
 import Button from "@components/Button";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  HireServiceFormData,
+  hireServiceSchema,
+} from "./schema/hireServiceSchema";
 
 const HireService: React.FC = () => {
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+    },
+    resolver: yupResolver(hireServiceSchema),
+  });
+
+  const onSubmit = (data: HireServiceFormData) => {
+    console.log(data);
+  };
+
   return (
     <Layout
       title="Contratar serviço"
-      footer={<Button>Contratar</Button>}
+      footer={<Button onPress={handleSubmit(onSubmit)}>Contratar</Button>}
       showBackButton
     >
       <View className="flex-1 p-4 gap-4">
@@ -26,23 +45,49 @@ const HireService: React.FC = () => {
             Nome do serviço
           </Text>
         </View>
-
         <View className="gap-4">
-          <Input
-            label="Nome (obrigatório)"
-            placeholder="Digite o nome"
-            autoCapitalize="words"
+          <Controller
+            control={control}
+            name="name"
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                label="Nome (obrigatório)"
+                placeholder="Digite o nome"
+                autoCapitalize="words"
+                onChangeText={field.onChange}
+                error={error?.message}
+                {...field}
+              />
+            )}
           />
-          <Input
-            label="Email (obrigatório)"
-            placeholder="Digite o email"
-            keyboardType="email-address"
-            autoCapitalize="none"
+          <Controller
+            control={control}
+            name="email"
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                label="Email (obrigatório)"
+                placeholder="Digite o email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                onChangeText={field.onChange}
+                error={error?.message}
+                {...field}
+              />
+            )}
           />
-          <Input
-            label="Telefone"
-            placeholder="Digite o telefone"
-            keyboardType="number-pad"
+          <Controller
+            control={control}
+            name="phone"
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                label="Telefone"
+                placeholder="Digite o telefone"
+                keyboardType="number-pad"
+                onChangeText={field.onChange}
+                error={error?.message}
+                {...field}
+              />
+            )}
           />
         </View>
       </View>
