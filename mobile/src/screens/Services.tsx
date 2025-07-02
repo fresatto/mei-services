@@ -6,9 +6,11 @@ import { Service } from "@dtos/Service";
 import api from "@services/api";
 import Layout from "@components/Layout";
 import Loading from "@components/Loading";
+import { useToast } from "@hooks/useToast";
 
 const Services: React.FC = () => {
   const navigation = useNavigation();
+  const { showToast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [services, setServices] = useState<Service[]>([]);
 
@@ -23,6 +25,10 @@ const Services: React.FC = () => {
       setServices(response.data);
     } catch (error) {
       console.log(error);
+      showToast({
+        message: "Erro ao buscar serviços!",
+        type: "error",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -30,6 +36,7 @@ const Services: React.FC = () => {
 
   useEffect(() => {
     fetchServices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -42,9 +42,15 @@ const HireService: React.FC = () => {
       });
 
       navigation.navigate("Services");
-      showToast("Serviço contratado com sucesso!");
+      showToast({
+        message: "Serviço contratado com sucesso!",
+      });
     } catch (error) {
       console.log(error);
+      showToast({
+        message: "Erro ao contratar serviço!",
+        type: "error",
+      });
     } finally {
       setIsLoading(false);
     }

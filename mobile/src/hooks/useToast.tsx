@@ -1,3 +1,4 @@
+import Toast, { ToastProps } from "@components/Toast";
 import React, {
   createContext,
   PropsWithChildren,
@@ -5,50 +6,37 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type ToastContextType = {
-  showToast: (message: string) => void;
+  showToast: (toastProps: ToastProps) => void;
   hideToast: () => void;
 };
 
 const ToastContext = createContext<ToastContextType>({} as ToastContextType);
 
 const ToastProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const { top } = useSafeAreaInsets();
+  const [toastProps, setToastProps] = useState<ToastProps | null>(null);
 
-  const showToast = (message: string) => {
-    setToastMessage(message);
+  const showToast = (props: ToastProps) => {
+    setToastProps(props);
   };
 
   const hideToast = () => {
-    setToastMessage(null);
+    setToastProps(null);
   };
 
   useEffect(() => {
-    if (toastMessage) {
+    if (toastProps) {
       setTimeout(() => {
-        setToastMessage(null);
+        setToastProps(null);
       }, 3000);
     }
-  }, [toastMessage]);
+  }, [toastProps]);
 
   return (
     <ToastContext.Provider value={{ showToast, hideToast }}>
       {children}
-
-      {toastMessage && (
-        <View
-          className="absolute top-1 left-4 right-4 p-4 bg-green-800 rounded-md"
-          style={{ top }}
-        >
-          <Text className="text-white font-baloo-bold text-lg text-center">
-            {toastMessage}
-          </Text>
-        </View>
-      )}
+      {toastProps && <Toast {...toastProps} />}
     </ToastContext.Provider>
   );
 };
