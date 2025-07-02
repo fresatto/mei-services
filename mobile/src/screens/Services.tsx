@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { Service } from "@dtos/Service";
@@ -45,29 +45,43 @@ const Services: React.FC = () => {
         <Loading />
       ) : (
         <View className="flex-1 p-4 gap-4">
-          <Text className="text-md text-gray-500 font-roboto-regular">
-            Selecione um dos serviços abaixo para{" "}
-            <Text className="font-roboto-bold">contratar.</Text>
-          </Text>
-
-          {services.map((service) => (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              key={service.id}
-              className="bg-gray-100 p-4 rounded-lg gap-1"
-              onPress={() => handleHireService(service)}
-            >
-              <Text className="text-xl font-baloo-bold text-gray-700">
-                {service.title}
-              </Text>
-              <Text className="text-md text-gray-500">
-                {service.description}
-              </Text>
-              <Text className="text-lg font-baloo-bold text-orange-500">
-                R$ {service.price}
-              </Text>
-            </TouchableOpacity>
-          ))}
+          {services.length > 0 ? (
+            <Text className="text-md text-gray-500 font-roboto-regular">
+              Selecione um dos serviços abaixo para{" "}
+              <Text className="font-roboto-bold">contratar.</Text>
+            </Text>
+          ) : null}
+          <FlatList
+            data={services}
+            scrollEnabled={false}
+            keyExtractor={(item) => String(item.id)}
+            contentContainerClassName=" flex-1 gap-4"
+            ListEmptyComponent={() => (
+              <View className="flex-1 items-center justify-center">
+                <Text className="text-lg text-gray-500 font-roboto-regular">
+                  Nenhum serviço encontrado.
+                </Text>
+              </View>
+            )}
+            renderItem={({ item: service }) => (
+              <TouchableOpacity
+                activeOpacity={0.7}
+                key={service.id}
+                className="bg-gray-100 p-4 rounded-lg gap-1"
+                onPress={() => handleHireService(service)}
+              >
+                <Text className="text-xl font-baloo-bold text-gray-700">
+                  {service.title}
+                </Text>
+                <Text className="text-md text-gray-500">
+                  {service.description}
+                </Text>
+                <Text className="text-lg font-baloo-bold text-orange-500">
+                  R$ {service.price}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
         </View>
       )}
     </Layout>
