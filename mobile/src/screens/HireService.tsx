@@ -28,9 +28,22 @@ const HireService: React.FC = () => {
         </View>
 
         <View className="gap-4">
-          <Input label="Nome (obrigatório)" placeholder="Digite o nome" />
-          <Input label="Email (obrigatório)" placeholder="Digite o email" />
-          <Input label="Telefone" placeholder="Digite o telefone" />
+          <Input
+            label="Nome (obrigatório)"
+            placeholder="Digite o nome"
+            autoCapitalize="words"
+          />
+          <Input
+            label="Email (obrigatório)"
+            placeholder="Digite o email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <Input
+            label="Telefone"
+            placeholder="Digite o telefone"
+            keyboardType="number-pad"
+          />
         </View>
       </View>
     </Layout>
