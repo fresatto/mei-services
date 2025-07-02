@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
 
 import Layout from "@components/Layout";
 import Input from "@components/Input";
@@ -9,9 +10,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   HireServiceFormData,
   hireServiceSchema,
+  VALID_PHONE_LENGTH,
 } from "./schema/hireServiceSchema";
+import { useToast } from "src/contexts/useToast";
 
 const HireService: React.FC = () => {
+  const navigation = useNavigation();
+  const { showToast } = useToast();
+
   const { control, handleSubmit } = useForm({
     defaultValues: {
       name: "",
@@ -23,6 +29,10 @@ const HireService: React.FC = () => {
 
   const onSubmit = (data: HireServiceFormData) => {
     console.log(data);
+
+    navigation.navigate("Services");
+
+    showToast("Serviço contratado com sucesso!");
   };
 
   return (
@@ -83,6 +93,7 @@ const HireService: React.FC = () => {
                 label="Telefone"
                 placeholder="Digite o telefone"
                 keyboardType="number-pad"
+                maxLength={VALID_PHONE_LENGTH}
                 onChangeText={field.onChange}
                 error={error?.message}
                 {...field}
