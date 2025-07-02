@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 
 import Services from "@screens/Services";
-import HireService from "@screens/HireService";
+import HireService from "@screens/HireService/index";
 
 const Stack = createNativeStackNavigator();
 

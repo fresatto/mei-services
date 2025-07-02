@@ -10,11 +10,12 @@ const hireServiceSchema = yup.object({
     .string()
     .min(11, "Telefone deve ter no mínimo 11 caracteres")
     .when("$phone", {
-      is: (phone: string) => phone && phone.length > 0,
+      is: (phone: string) => phone?.length > 0,
       then: (schema) =>
         schema.min(11, "Telefone deve ter no mínimo 11 caracteres"),
       otherwise: (schema) => schema.optional(),
-    }),
+    })
+    .transform((value) => (value.length === 0 ? undefined : value)),
 });
 
 type HireServiceFormData = yup.InferType<typeof hireServiceSchema>;
