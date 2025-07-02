@@ -7,12 +7,12 @@ import Layout from "@components/Layout";
 import Input from "@components/Input";
 import Button from "@components/Button";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useToast } from "@hooks/useToast";
 import {
   HireServiceFormData,
   hireServiceSchema,
   VALID_PHONE_LENGTH,
 } from "./schema/hireServiceSchema";
-import { useToast } from "src/contexts/useToast";
 
 const HireService: React.FC = () => {
   const navigation = useNavigation();

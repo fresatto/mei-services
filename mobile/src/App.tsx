@@ -8,7 +8,7 @@ import { Baloo2_400Regular, Baloo2_700Bold } from "@expo-google-fonts/baloo-2";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import AppRoutes from "./routes/app.routes";
-import { ToastProvider } from "./contexts/useToast";
+import { ToastProvider } from "./hooks/useToast";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
