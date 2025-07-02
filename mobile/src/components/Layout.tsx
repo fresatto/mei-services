@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import { ScrollView, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Header, { HeaderProps } from "./Header";
@@ -16,21 +16,28 @@ const Layout: React.FC<LayoutProps> = ({
 }) => {
   const { bottom } = useSafeAreaInsets();
 
+  const paddingBottom = Math.max(bottom, 16);
+
   return (
     <View className="flex-1 bg-white">
-      <Header {...headerProps} />
-      <ScrollView
-        bounces={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: bottom }}
+      <KeyboardAvoidingView
+        className="flex-1"
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        {children}
-      </ScrollView>
-      {footer && (
-        <View className="p-4" style={{ paddingBottom: bottom }}>
-          {footer}
-        </View>
-      )}
+        <Header {...headerProps} />
+        <ScrollView
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom }}
+        >
+          {children}
+        </ScrollView>
+        {footer && (
+          <View className="px-4 py-4 bg-white" style={{ paddingBottom }}>
+            {footer}
+          </View>
+        )}
+      </KeyboardAvoidingView>
     </View>
   );
 };
