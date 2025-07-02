@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Baloo_2, Roboto } from "next/font/google";
+
+import Header from "@/components/Header";
+
 import "./globals.css";
 
 const baloo2 = Baloo_2({
@@ -25,10 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${baloo2.variable} ${roboto.variable} antialiased`}>
-        <header>
-          <h1>Hello Next.js! Heading</h1>
-        </header>
-        {children}
+        <Header />
+        <section className="p-4">
+          <div className="max-w-7xl mx-auto">{children}</div>
+        </section>
       </body>
     </html>
   );
