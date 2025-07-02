@@ -1,9 +1,11 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Layout from "@components/Layout";
+import { Service } from "@dtos/Service";
 
-const services = [
+const services: Service[] = [
   {
     id: 1,
     name: "Limpeza de casa",
@@ -63,6 +65,12 @@ const services = [
 ];
 
 const Services: React.FC = () => {
+  const navigation = useNavigation();
+
+  const handleHireService = (service: Service) => {
+    navigation.navigate("HireService", { id: service.id });
+  };
+
   return (
     <Layout title="Serviços disponíveis">
       <View className="flex-1 p-4 gap-4">
@@ -76,6 +84,7 @@ const Services: React.FC = () => {
             activeOpacity={0.7}
             key={service.id}
             className="bg-gray-100 p-4 rounded-lg gap-1"
+            onPress={() => handleHireService(service)}
           >
             <Text className="text-xl font-baloo-bold text-gray-700">
               {service.name}
