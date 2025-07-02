@@ -1,0 +1,36 @@
+{
+  "services": [
+    {
+      "id": 1,
+      "title": "Desenvolvimento de Website",
+      "price": 2500,
+      "description": "Criação de sites responsivos com React"
+    },
+    {
+      "id": 2,
+      "title": "Design de Logo",
+      "price": 800,
+      "description": "Criação de logotipos profissionais"
+    },
+    {
+      "id": 3,
+      "title": "Desenvolvimento de Aplicativo",
+      "price": 3500,
+      "description": "Criação de aplicativos nativos com React Native"
+    },
+    {
+      "id": 4,
+      "title": "Desenvolvimento de API",
+      "price": 2000,
+      "description": "Criação de APIs RESTful com Node.js"
+    }
+  ],
+  "hires": [
+    {
+      "serviceId": 1,
+      "name": "Pedro Oliveira",
+      "email": "pedro@exemplo.com",
+      "phone": "11777777777"
+    }
+  ]
+}
