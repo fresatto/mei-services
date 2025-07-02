@@ -3,10 +3,11 @@ import { Text, View } from "react-native";
 
 import Layout from "@components/Layout";
 import Input from "@components/Input";
+import Button from "@components/Button";
 
 const HireService: React.FC = () => {
   return (
-    <Layout title="Contratar serviço">
+    <Layout title="Contratar serviço" footer={<Button>Contratar</Button>}>
       <View className="flex-1 p-4 gap-4">
         <Text className="text-md text-gray-500 font-roboto-regular">
           Preencha os dados abaixo para fazer a{" "}

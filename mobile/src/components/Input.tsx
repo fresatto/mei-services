@@ -1,11 +1,11 @@
-import React, { ComponentProps } from "react";
-import { Text, TextInput, View } from "react-native";
+import React from "react";
+import { Text, TextInput, TextInputProps, View } from "react-native";
 
 import colors from "tailwindcss/colors";
 
 type InputProps = {
   label: string;
-} & ComponentProps<typeof TextInput>;
+} & TextInputProps;
 
 const Input: React.FC<InputProps> = ({ label, ...rest }) => {
   return (
