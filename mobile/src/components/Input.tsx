@@ -14,6 +14,7 @@ import colors from "tailwindcss/colors";
 type InputProps = {
   label: string;
   error?: string;
+  numberOnly?: boolean;
 } & TextInputProps;
 
 const styles = tv({
@@ -40,6 +41,8 @@ const Input: React.FC<InputProps> = ({
   error,
   onFocus,
   onBlur,
+  onChangeText,
+  numberOnly,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -62,6 +65,18 @@ const Input: React.FC<InputProps> = ({
     }
   };
 
+  const handleChangeText = (text: string) => {
+    let formattedText = text;
+
+    if (numberOnly) {
+      formattedText = text.replace(/[^0-9]/g, "");
+    }
+
+    if (onChangeText) {
+      onChangeText(formattedText);
+    }
+  };
+
   return (
     <View className="gap-2">
       <Text className={labelStyle()}>{label}</Text>
@@ -70,6 +85,7 @@ const Input: React.FC<InputProps> = ({
         onBlur={handleBlur}
         className={input()}
         placeholderTextColor={colors.gray[400]}
+        onChangeText={handleChangeText}
         {...rest}
       />
       {error && <Text className="text-red-500 text-sm">{error}</Text>}

@@ -153,6 +153,7 @@ const HireService: React.FC = () => {
                   maxLength={VALID_PHONE_LENGTH}
                   onChangeText={field.onChange}
                   error={error?.message}
+                  numberOnly
                   {...field}
                 />
               )}
