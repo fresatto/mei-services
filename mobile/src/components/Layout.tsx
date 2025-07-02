@@ -6,10 +6,11 @@ import Header, { HeaderProps } from "./Header";
 
 type LayoutProps = {
   title: string;
+  footer?: React.ReactNode;
 } & PropsWithChildren &
   HeaderProps;
 
-const Layout: React.FC<LayoutProps> = ({ title, children }) => {
+const Layout: React.FC<LayoutProps> = ({ title, footer, children }) => {
   const { bottom } = useSafeAreaInsets();
 
   return (
@@ -22,6 +23,11 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
       >
         {children}
       </ScrollView>
+      {footer && (
+        <View className="p-4" style={{ paddingBottom: bottom }}>
+          {footer}
+        </View>
+      )}
     </View>
   );
 };
