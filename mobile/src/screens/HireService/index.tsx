@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -20,6 +20,7 @@ const HireService: React.FC = () => {
   const navigation = useNavigation();
   const { showToast } = useToast();
   const { serviceId } = route.params as { serviceId: number };
+  const [isLoading, setIsLoading] = useState(false);
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -32,6 +33,7 @@ const HireService: React.FC = () => {
 
   const onSubmit = async (data: HireServiceFormData) => {
     try {
+      setIsLoading(true);
       await api.post("/hires", {
         serviceId,
         name: data.name,
@@ -43,13 +45,19 @@ const HireService: React.FC = () => {
       showToast("Serviço contratado com sucesso!");
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <Layout
       title="Contratar serviço"
-      footer={<Button onPress={handleSubmit(onSubmit)}>Contratar</Button>}
+      footer={
+        <Button isLoading={isLoading} onPress={handleSubmit(onSubmit)}>
+          Contratar
+        </Button>
+      }
       showBackButton
     >
       <View className="flex-1 p-4 gap-4">
