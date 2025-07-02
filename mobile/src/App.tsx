@@ -1,12 +1,13 @@
 import "../global.css";
 
 import { useFonts } from "expo-font";
+import { StatusBar } from "expo-status-bar";
 import { ActivityIndicator } from "react-native";
 import { Roboto_400Regular, Roboto_700Bold } from "@expo-google-fonts/roboto";
 import { Baloo2_400Regular, Baloo2_700Bold } from "@expo-google-fonts/baloo-2";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import Services from "./screens/Services";
+import AppRoutes from "./routes/app.routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -22,7 +23,8 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <Services />
+      <StatusBar style="light" />
+      <AppRoutes />
     </SafeAreaProvider>
   );
 }

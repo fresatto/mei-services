@@ -12,6 +12,8 @@
   "dependencies": {
     "@expo-google-fonts/baloo-2": "^0.4.1",
     "@expo-google-fonts/roboto": "^0.4.0",
+    "@react-navigation/native": "^6.x",
+    "@react-navigation/native-stack": "^6.x",
     "expo": "~53.0.15",
     "expo-font": "~13.3.2",
     "expo-status-bar": "~2.2.3",
@@ -21,6 +23,7 @@
     "react-native": "0.79.4",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.11.1",
     "react-native-svg": "^15.12.0"
   },
   "devDependencies": {

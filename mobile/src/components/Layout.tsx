@@ -14,7 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ title, footer, children }) => {
   const { bottom } = useSafeAreaInsets();
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-white">
       <Header title={title} />
       <ScrollView
         bounces={false}
