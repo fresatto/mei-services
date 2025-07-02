@@ -7,7 +7,11 @@ import Button from "@components/Button";
 
 const HireService: React.FC = () => {
   return (
-    <Layout title="Contratar serviço" footer={<Button>Contratar</Button>}>
+    <Layout
+      title="Contratar serviço"
+      footer={<Button>Contratar</Button>}
+      showBackButton
+    >
       <View className="flex-1 p-4 gap-4">
         <Text className="text-md text-gray-500 font-roboto-regular">
           Preencha os dados abaixo para fazer a{" "}

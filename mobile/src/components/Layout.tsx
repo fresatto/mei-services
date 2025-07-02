@@ -5,17 +5,20 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Header, { HeaderProps } from "./Header";
 
 type LayoutProps = {
-  title: string;
   footer?: React.ReactNode;
 } & PropsWithChildren &
   HeaderProps;
 
-const Layout: React.FC<LayoutProps> = ({ title, footer, children }) => {
+const Layout: React.FC<LayoutProps> = ({
+  footer,
+  children,
+  ...headerProps
+}) => {
   const { bottom } = useSafeAreaInsets();
 
   return (
     <View className="flex-1 bg-white">
-      <Header title={title} />
+      <Header {...headerProps} />
       <ScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}
