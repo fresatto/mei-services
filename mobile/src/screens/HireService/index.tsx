@@ -1,13 +1,14 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import Layout from "@components/Layout";
 import Input from "@components/Input";
 import Button from "@components/Button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useToast } from "@hooks/useToast";
+import api from "@services/api";
 import {
   HireServiceFormData,
   hireServiceSchema,
@@ -15,8 +16,10 @@ import {
 } from "./schema/hireServiceSchema";
 
 const HireService: React.FC = () => {
+  const route = useRoute();
   const navigation = useNavigation();
   const { showToast } = useToast();
+  const { serviceId } = route.params as { serviceId: number };
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -27,12 +30,20 @@ const HireService: React.FC = () => {
     resolver: yupResolver(hireServiceSchema),
   });
 
-  const onSubmit = (data: HireServiceFormData) => {
-    console.log(data);
+  const onSubmit = async (data: HireServiceFormData) => {
+    try {
+      await api.post("/hires", {
+        serviceId,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      });
 
-    navigation.navigate("Services");
-
-    showToast("Serviço contratado com sucesso!");
+      navigation.navigate("Services");
+      showToast("Serviço contratado com sucesso!");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

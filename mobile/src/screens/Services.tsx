@@ -13,7 +13,7 @@ const Services: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
 
   const handleHireService = (service: Service) => {
-    navigation.navigate("HireService", { id: service.id });
+    navigation.navigate("HireService", { serviceId: service.id });
   };
 
   const fetchServices = async () => {

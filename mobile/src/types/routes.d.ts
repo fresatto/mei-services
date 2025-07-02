@@ -3,7 +3,7 @@ declare global {
     interface RootParamList {
       Services: undefined;
       HireService: {
-        id: number;
+        serviceId: number;
       };
     }
   }

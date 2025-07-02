@@ -25,12 +25,5 @@
       "description": "Criação de APIs RESTful com Node.js"
     }
   ],
-  "hires": [
-    {
-      "serviceId": 1,
-      "name": "Pedro Oliveira",
-      "email": "pedro@exemplo.com",
-      "phone": "11777777777"
-    }
-  ]
+  "hires": []
 }
