@@ -93,6 +93,8 @@ const HireService: React.FC = () => {
                 label="Telefone"
                 placeholder="Digite o telefone"
                 keyboardType="number-pad"
+                returnKeyType="done"
+                onSubmitEditing={handleSubmit(onSubmit)}
                 maxLength={VALID_PHONE_LENGTH}
                 onChangeText={field.onChange}
                 error={error?.message}
