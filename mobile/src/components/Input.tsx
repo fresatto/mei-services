@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Text, TextInput, TextInputProps, View } from "react-native";
+import {
+  NativeSyntheticEvent,
+  Text,
+  TextInput,
+  TextInputFocusEventData,
+  TextInputProps,
+  View,
+} from "react-native";
 import { tv } from "tailwind-variants";
 
 import colors from "tailwindcss/colors";
@@ -28,17 +35,39 @@ const styles = tv({
   },
 });
 
-const Input: React.FC<InputProps> = ({ label, error, ...rest }) => {
+const Input: React.FC<InputProps> = ({
+  label,
+  error,
+  onFocus,
+  onBlur,
+  ...rest
+}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const { labelStyle, input } = styles({ isFocused, isError: !!error });
+
+  const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    setIsFocused(true);
+
+    if (onFocus) {
+      onFocus(e);
+    }
+  };
+
+  const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    setIsFocused(false);
+
+    if (onBlur) {
+      onBlur(e);
+    }
+  };
 
   return (
     <View className="gap-2">
       <Text className={labelStyle()}>{label}</Text>
       <TextInput
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         className={input()}
         placeholderTextColor={colors.gray[400]}
         {...rest}
