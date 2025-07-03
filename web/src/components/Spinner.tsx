@@ -3,10 +3,11 @@ import React from "react";
 
 type SpinnerProps = {
   color?: string;
+  size?: number;
 };
 
-const Spinner: React.FC<SpinnerProps> = ({ color = "#fff" }) => {
-  return <SpinnerGapIcon size={20} className="animate-spin" color={color} />;
+const Spinner: React.FC<SpinnerProps> = ({ color = "#fff", size = 20 }) => {
+  return <SpinnerGapIcon size={size} className="animate-spin" color={color} />;
 };
 
 export default Spinner;

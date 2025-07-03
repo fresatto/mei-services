@@ -6,6 +6,7 @@ import { EnvelopeSimple, Phone, UserCircle } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 
 import PageTitle from "@/components/PageTitle";
+import PageLoading from "@/components/PageLoading";
 import api from "@/services/api";
 import { ContractedService } from "@/dtos/Service";
 
@@ -20,7 +21,7 @@ const ContractedServices: React.FC = () => {
       <PageTitle>Serviços contratados</PageTitle>
       <div className="flex flex-col gap-4 mt-10">
         {isPending ? (
-          <div>Carregando...</div>
+          <PageLoading />
         ) : (
           data?.map((hire) => (
             <div

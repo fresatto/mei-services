@@ -7,6 +7,7 @@ import PageTitle from "@/components/PageTitle";
 import { Service } from "@/dtos/Service";
 import api from "@/services/api";
 import Button from "@/components/Button";
+import PageLoading from "@/components/PageLoading";
 
 export default function Page() {
   const { data: services, isPending } = useQuery<Service[]>({
@@ -25,7 +26,7 @@ export default function Page() {
 
       <div className="flex flex-col gap-4">
         {isPending ? (
-          <div>Carregando...</div>
+          <PageLoading />
         ) : (
           services?.map((service) => (
             <div key={service.id} className="bg-gray-100 p-4 rounded-lg gap-1">
