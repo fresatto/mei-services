@@ -5,7 +5,10 @@ export const newServiceSchema = yup.object({
     .string()
     .required("Campo obrigatório")
     .min(3, "Nome do serviço deve ter no mínimo 3 caracteres"),
-  price: yup.string().required("Campo obrigatório"),
+  price: yup
+    .number()
+    .min(10, "Preço deve ser pelo menos R$10,00")
+    .required("Campo obrigatório"),
   description: yup
     .string()
     .min(5, "Descrição do serviço deve ter no mínimo 5 caracteres")
