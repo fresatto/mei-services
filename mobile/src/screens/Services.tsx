@@ -79,9 +79,11 @@ const Services: React.FC = () => {
                 <Text className="text-xl font-baloo-bold text-gray-700">
                   {service.title}
                 </Text>
-                <Text className="text-md text-gray-500">
-                  {service.description}
-                </Text>
+                {service.description && (
+                  <Text className="text-md text-gray-500">
+                    {service.description}
+                  </Text>
+                )}
                 <Text className="text-lg font-baloo-bold text-orange-500">
                   {service.formattedPrice}
                 </Text>
