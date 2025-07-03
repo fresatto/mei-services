@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Text, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import Layout from "@components/Layout";
 import Input from "@components/Input";
@@ -22,8 +23,6 @@ const HireService: React.FC = () => {
   const navigation = useNavigation();
   const { showToast } = useToast();
   const { serviceId } = route.params as { serviceId: number };
-  const [service, setService] = useState<Service | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -34,10 +33,25 @@ const HireService: React.FC = () => {
     resolver: yupResolver(hireServiceSchema),
   });
 
-  const onSubmit = async (data: HireServiceFormData) => {
-    try {
-      setIsLoading(true);
+  const { data: service, isLoading: isGettingServiceDetails } = useQuery({
+    queryKey: ["services", serviceId],
+    queryFn: async () => {
+      try {
+        const response = await api.get<Service>(`/services/${serviceId}`);
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        showToast({
+          message: "Erro ao buscar detalhes do serviço!",
+          type: "error",
+        });
+        return null;
+      }
+    },
+  });
 
+  const { mutate: hireService, isPending: isHiringService } = useMutation({
+    mutationFn: async (data: HireServiceFormData) => {
       const unmaskedPhone = data.phone?.replace(/\D/g, "");
 
       await api.post("/hires", {
@@ -46,50 +60,31 @@ const HireService: React.FC = () => {
         email: data.email,
         phone: unmaskedPhone,
       });
-
+    },
+    onSuccess: () => {
       navigation.navigate("Services");
       showToast({
         message: "Serviço contratado com sucesso!",
       });
-    } catch (error) {
-      console.log(error);
+    },
+    onError: () => {
       showToast({
         message: "Erro ao contratar serviço!",
         type: "error",
       });
-    } finally {
-      setIsLoading(false);
-    }
+    },
+  });
+
+  const onSubmit = (data: HireServiceFormData) => {
+    hireService(data);
   };
-
-  useEffect(() => {
-    async function getServiceDetails() {
-      try {
-        setIsLoading(true);
-        const response = await api.get(`/services/${serviceId}`);
-        setService(response.data);
-      } catch (error) {
-        console.log(error);
-        showToast({
-          message: "Erro ao buscar detalhes do serviço!",
-          type: "error",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    getServiceDetails();
-  }, [serviceId, showToast]);
-
-  const isGettingServiceDetails = isLoading && !service;
 
   return (
     <Layout
       title="Contratar serviço"
       footer={
         !isGettingServiceDetails && (
-          <Button isLoading={isLoading} onPress={handleSubmit(onSubmit)}>
+          <Button isLoading={isHiringService} onPress={handleSubmit(onSubmit)}>
             Contratar
           </Button>
         )
