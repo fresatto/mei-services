@@ -10,16 +10,22 @@ import PageLoading from "@/components/PageLoading";
 import api from "@/services/api";
 import { ContractedService } from "@/dtos/Service";
 import { useToast } from "@/hooks/useToast";
+import { maskPhone } from "@/utils/mask";
 
 const ContractedServices: React.FC = () => {
   const { showToast } = useToast();
 
-  const { data, isPending } = useQuery<ContractedService[]>({
+  const { data, isPending } = useQuery({
     queryKey: ["hires"],
     queryFn: async () => {
       try {
-        const response = await api.get("/hires?_expand=service");
-        return response.data;
+        const response = await api.get<ContractedService[]>(
+          "/hires?_expand=service"
+        );
+        return response.data.map((hired) => ({
+          ...hired,
+          formattedPhone: maskPhone(hired.phone ?? ""),
+        }));
       } catch (error) {
         console.log(error);
 
@@ -79,7 +85,7 @@ const ContractedServices: React.FC = () => {
                     <div className="flex items-center gap-2">
                       <Phone size={20} color={colors.gray[500]} />
                       <span className="text-sm font-roboto text-gray-500">
-                        {hire.phone}
+                        {hire.formattedPhone}
                       </span>
                     </div>
                   )}

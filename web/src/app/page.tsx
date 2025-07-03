@@ -7,16 +7,20 @@ import { Service } from "@/dtos/Service";
 import api from "@/services/api";
 import PageLoading from "@/components/PageLoading";
 import { useToast } from "@/hooks/useToast";
+import { formatCurrency } from "@/utils/currency";
 
 export default function Page() {
   const { showToast } = useToast();
 
-  const { data: services, isPending } = useQuery<Service[]>({
+  const { data: services, isLoading } = useQuery({
     queryKey: ["services"],
     queryFn: async () => {
       try {
-        const response = await api.get("/services");
-        return response.data;
+        const response = await api.get<Service[]>("/services");
+        return response.data.map((service) => ({
+          ...service,
+          formattedPrice: formatCurrency(service.price),
+        }));
       } catch (error) {
         console.log(error);
 
@@ -34,7 +38,7 @@ export default function Page() {
     <>
       <PageTitle showButton>Serviços cadastrados</PageTitle>
       <div className="flex flex-col gap-4">
-        {isPending ? (
+        {isLoading ? (
           <PageLoading />
         ) : services?.length === 0 ? (
           <div className="flex flex-col gap-4">
@@ -52,7 +56,7 @@ export default function Page() {
                 {service.description}
               </p>
               <p className="text-lg font-baloo-2 font-bold text-orange-500">
-                {service.price}
+                {service.formattedPrice}
               </p>
             </div>
           ))

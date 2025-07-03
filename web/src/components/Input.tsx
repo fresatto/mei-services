@@ -3,6 +3,8 @@
 import React, { ComponentProps } from "react";
 import { tv } from "tailwind-variants";
 
+import { formatCurrency } from "@/utils/currency";
+
 type InputProps = {
   label: string;
   error?: string;
@@ -36,16 +38,13 @@ const Input: React.FC<InputProps> = ({
     isError: !!error,
   });
 
-  const formatCurrency = (value: string): string => {
+  const formatCurrencyInCents = (value: string): string => {
     const numericValue = value.replace(/\D/g, "");
     const number = Number(numericValue);
 
     const valueInCents = number / 100;
 
-    return valueInCents.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
+    return formatCurrency(valueInCents);
   };
 
   const unformatCurrency = (value: string): string => {
@@ -78,7 +77,7 @@ const Input: React.FC<InputProps> = ({
 
   const formatInputValue = (valueParam: string) => {
     if (currencyInput) {
-      return formatCurrency(valueParam);
+      return formatCurrencyInCents(valueParam);
     }
 
     return valueParam;
