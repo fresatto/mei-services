@@ -9,6 +9,7 @@ type InputProps = {
   label: string;
   error?: string;
   currencyInput?: boolean;
+  capitalize?: boolean;
 } & ComponentProps<"input">;
 
 const inputStyles = tv({
@@ -32,6 +33,7 @@ const Input: React.FC<InputProps> = ({
   currencyInput,
   onChange,
   value,
+  capitalize,
   ...rest
 }) => {
   const { labelStyle, input } = inputStyles({
@@ -76,6 +78,10 @@ const Input: React.FC<InputProps> = ({
   };
 
   const formatInputValue = (valueParam: string) => {
+    if (capitalize) {
+      return valueParam.charAt(0).toUpperCase() + valueParam.slice(1);
+    }
+
     if (currencyInput) {
       return formatCurrencyInCents(valueParam);
     }
@@ -88,6 +94,7 @@ const Input: React.FC<InputProps> = ({
   return (
     <div className="flex flex-col gap-2">
       <label className={labelStyle()}>{label}</label>
+
       <input
         className={input()}
         value={formattedValue}

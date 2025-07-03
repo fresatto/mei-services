@@ -56,6 +56,7 @@ const NewService: React.FC = () => {
               label="Nome do serviço (obrigatório)"
               placeholder="Digite o nome do serviço"
               error={error?.message}
+              capitalize
               {...field}
             />
           )}
@@ -82,6 +83,7 @@ const NewService: React.FC = () => {
               label="Descrição"
               placeholder="Digite a descrição do serviço"
               error={error?.message}
+              capitalize
               {...field}
             />
           )}
