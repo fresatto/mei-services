@@ -6,11 +6,28 @@ import PageTitle from "@/components/PageTitle";
 import { Service } from "@/dtos/Service";
 import api from "@/services/api";
 import PageLoading from "@/components/PageLoading";
+import { useToast } from "@/hooks/useToast";
 
 export default function Page() {
+  const { showToast } = useToast();
+
   const { data: services, isPending } = useQuery<Service[]>({
     queryKey: ["services"],
-    queryFn: () => api.get("/services").then((res) => res.data),
+    queryFn: async () => {
+      try {
+        const response = await api.get("/services");
+        return response.data;
+      } catch (error) {
+        console.log(error);
+
+        showToast({
+          message: "Erro ao buscar serviços cadastrados",
+          type: "error",
+        });
+
+        return [];
+      }
+    },
   });
 
   return (
@@ -19,6 +36,12 @@ export default function Page() {
       <div className="flex flex-col gap-4">
         {isPending ? (
           <PageLoading />
+        ) : services?.length === 0 ? (
+          <div className="flex flex-col gap-4">
+            <p className="text-md font-roboto text-gray-700 text-center">
+              Nenhum serviço cadastrado.
+            </p>
+          </div>
         ) : (
           services?.map((service) => (
             <div key={service.id} className="bg-gray-100 p-4 rounded-lg gap-1">

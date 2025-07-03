@@ -9,11 +9,28 @@ import PageTitle from "@/components/PageTitle";
 import PageLoading from "@/components/PageLoading";
 import api from "@/services/api";
 import { ContractedService } from "@/dtos/Service";
+import { useToast } from "@/hooks/useToast";
 
 const ContractedServices: React.FC = () => {
+  const { showToast } = useToast();
+
   const { data, isPending } = useQuery<ContractedService[]>({
     queryKey: ["hires"],
-    queryFn: () => api.get("/hires?_expand=service").then((res) => res.data),
+    queryFn: async () => {
+      try {
+        const response = await api.get("/hires?_expand=service");
+        return response.data;
+      } catch (error) {
+        console.log(error);
+
+        showToast({
+          message: "Erro ao buscar serviços contratados",
+          type: "error",
+        });
+
+        return [];
+      }
+    },
   });
 
   return (
@@ -22,6 +39,12 @@ const ContractedServices: React.FC = () => {
       <div className="flex flex-col gap-4 mt-10">
         {isPending ? (
           <PageLoading />
+        ) : data?.length === 0 ? (
+          <div className="flex flex-col gap-4">
+            <p className="text-md font-roboto text-gray-700 text-center">
+              Nenhum serviço contratado.
+            </p>
+          </div>
         ) : (
           data?.map((hire) => (
             <div
