@@ -15,6 +15,7 @@
     "@hookform/resolvers": "^5.1.1",
     "@react-navigation/native": "^6.x",
     "@react-navigation/native-stack": "^6.x",
+    "@tanstack/react-query": "^5.81.5",
     "axios": "^1.10.0",
     "expo": "~53.0.15",
     "expo-font": "~13.3.2",

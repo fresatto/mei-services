@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import { Service } from "@dtos/Service";
 import api from "@services/api";
@@ -12,46 +13,51 @@ import { formatCurrency } from "@utils/currency";
 const Services: React.FC = () => {
   const navigation = useNavigation();
   const { showToast } = useToast();
-  const [isLoading, setIsLoading] = useState(true);
-  const [services, setServices] = useState<Service[]>([]);
 
   const handleHireService = (service: Service) => {
     navigation.navigate("HireService", { serviceId: service.id });
   };
 
-  const fetchServices = async () => {
-    try {
-      setIsLoading(true);
-      const response = await api.get("/services");
-      setServices(response.data);
-    } catch (error) {
-      console.log(error);
-      showToast({
-        message: "Erro ao buscar serviços!",
-        type: "error",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const {
+    data: services,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: ["services"],
+    queryFn: async () => {
+      try {
+        const response = await api.get<Service[]>("/services");
 
-  useEffect(() => {
-    fetchServices();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        showToast({
+          message: "Erro ao buscar serviços!",
+          type: "error",
+        });
+        return [];
+      }
+    },
+  });
 
-  const formattedServices = services.map((service) => ({
+  const formattedServices = services?.map((service: Service) => ({
     ...service,
     formattedPrice: formatCurrency(service.price),
   }));
 
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
+
   return (
     <Layout title="Serviços disponíveis">
-      {isLoading ? (
+      {isFetching ? (
         <Loading />
       ) : (
         <View className="flex-1 p-4 gap-4">
-          {services.length > 0 ? (
+          {services && services.length > 0 ? (
             <Text className="text-md text-gray-500 font-roboto-regular">
               Selecione um dos serviços abaixo para{" "}
               <Text className="font-roboto-bold">contratar.</Text>
