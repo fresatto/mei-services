@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "setup": "yarn install && cd mobile && yarn install && cd ../web && yarn install",
     "server": "json-server --watch db.json --delay 1000 --host 0.0.0.0 --port 3001",
     "mobile:ios": "cd mobile && yarn run ios",
     "mobile:android": "cd mobile && yarn run android",
