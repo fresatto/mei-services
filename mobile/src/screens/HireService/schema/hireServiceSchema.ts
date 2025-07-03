@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const VALID_PHONE_LENGTH = 11;
+export const VALID_PHONE_MASEKED_LENGTH = 15;
 
 const hireServiceSchema = yup.object({
   name: yup
@@ -10,7 +10,10 @@ const hireServiceSchema = yup.object({
   email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
   phone: yup
     .string()
-    .min(VALID_PHONE_LENGTH, "Telefone deve ter no mínimo 11 caracteres")
+    .min(
+      VALID_PHONE_MASEKED_LENGTH,
+      "Telefone deve ter no mínimo 11 caracteres"
+    )
     .when("$phone", {
       is: (phone: string) => phone?.length > 0,
       then: (schema) =>

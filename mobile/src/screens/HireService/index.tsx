@@ -14,7 +14,7 @@ import { Service } from "@dtos/Service";
 import {
   HireServiceFormData,
   hireServiceSchema,
-  VALID_PHONE_LENGTH,
+  VALID_PHONE_MASEKED_LENGTH,
 } from "./schema/hireServiceSchema";
 
 const HireService: React.FC = () => {
@@ -37,11 +37,14 @@ const HireService: React.FC = () => {
   const onSubmit = async (data: HireServiceFormData) => {
     try {
       setIsLoading(true);
+
+      const unmaskedPhone = data.phone?.replace(/\D/g, "");
+
       await api.post("/hires", {
         serviceId,
         name: data.name,
         email: data.email,
-        phone: data.phone,
+        phone: unmaskedPhone,
       });
 
       navigation.navigate("Services");
@@ -150,10 +153,10 @@ const HireService: React.FC = () => {
                   keyboardType="number-pad"
                   returnKeyType="done"
                   onSubmitEditing={handleSubmit(onSubmit)}
-                  maxLength={VALID_PHONE_LENGTH}
+                  maxLength={VALID_PHONE_MASEKED_LENGTH}
                   onChangeText={field.onChange}
                   error={error?.message}
-                  numberOnly
+                  phone
                   {...field}
                 />
               )}

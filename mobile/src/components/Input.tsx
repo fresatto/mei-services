@@ -8,13 +8,14 @@ import {
   View,
 } from "react-native";
 import { tv } from "tailwind-variants";
-
 import colors from "tailwindcss/colors";
+
+import { maskPhone } from "@utils/mask";
 
 type InputProps = {
   label: string;
   error?: string;
-  numberOnly?: boolean;
+  phone?: boolean;
 } & TextInputProps;
 
 const styles = tv({
@@ -42,7 +43,7 @@ const Input: React.FC<InputProps> = ({
   onFocus,
   onBlur,
   onChangeText,
-  numberOnly,
+  phone,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -68,8 +69,8 @@ const Input: React.FC<InputProps> = ({
   const handleChangeText = (text: string) => {
     let formattedText = text;
 
-    if (numberOnly) {
-      formattedText = text.replace(/[^0-9]/g, "");
+    if (phone) {
+      formattedText = maskPhone(text);
     }
 
     if (onChangeText) {
