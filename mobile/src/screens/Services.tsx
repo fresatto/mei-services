@@ -7,6 +7,7 @@ import api from "@services/api";
 import Layout from "@components/Layout";
 import Loading from "@components/Loading";
 import { useToast } from "@hooks/useToast";
+import { formatCurrency } from "@utils/currency";
 
 const Services: React.FC = () => {
   const navigation = useNavigation();
@@ -39,6 +40,11 @@ const Services: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const formattedServices = services.map((service) => ({
+    ...service,
+    formattedPrice: formatCurrency(service.price),
+  }));
+
   return (
     <Layout title="Serviços disponíveis">
       {isLoading ? (
@@ -52,7 +58,7 @@ const Services: React.FC = () => {
             </Text>
           ) : null}
           <FlatList
-            data={services}
+            data={formattedServices}
             scrollEnabled={false}
             keyExtractor={(item) => String(item.id)}
             contentContainerClassName=" flex-1 gap-4"
@@ -77,7 +83,7 @@ const Services: React.FC = () => {
                   {service.description}
                 </Text>
                 <Text className="text-lg font-baloo-bold text-orange-500">
-                  R$ {service.price}
+                  {service.formattedPrice}
                 </Text>
               </TouchableOpacity>
             )}
