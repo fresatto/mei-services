@@ -28,14 +28,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Providers>
-        <body className={`${baloo2.variable} ${roboto.variable} antialiased`}>
+      <body className={`${baloo2.variable} ${roboto.variable} antialiased`}>
+        <Providers>
           <Header />
           <section className="p-4 py-8">
             <div className="max-w-7xl mx-auto">{children}</div>
           </section>
-        </body>
-      </Providers>
+        </Providers>
+      </body>
     </html>
   );
 }

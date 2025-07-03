@@ -3,11 +3,13 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 import PageTitle from "@/components/PageTitle";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useToast } from "@/hooks/useToast";
 import {
   NewServiceFormData,
   newServiceSchema,
@@ -15,12 +17,27 @@ import {
 import api from "@/services/api";
 
 const NewService: React.FC = () => {
+  const router = useRouter();
+  const { showToast } = useToast();
+
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(newServiceSchema),
   });
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: NewServiceFormData) => api.post("/services", data),
+    onSuccess: () => {
+      router.push("/");
+      showToast({
+        message: "Serviço cadastrado com sucesso",
+      });
+    },
+    onError: () => {
+      showToast({
+        message: "Erro ao cadastrar serviço",
+        type: "error",
+      });
+    },
   });
 
   const onSubmit = (data: NewServiceFormData) => {
