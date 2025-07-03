@@ -30,8 +30,8 @@ const Header: React.FC = () => {
           Contratados
         </Link>
         <Link
-          href="/contact"
-          className={linkStyles({ active: pathname === "/contact" })}
+          href="/new-service"
+          className={linkStyles({ active: pathname === "/new-service" })}
         >
           Novo serviço
         </Link>
