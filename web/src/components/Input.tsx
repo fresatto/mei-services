@@ -28,6 +28,7 @@ const Input: React.FC<InputProps> = ({
   label,
   error,
   currencyInput,
+  onChange,
   value,
   ...rest
 }) => {
@@ -37,10 +38,7 @@ const Input: React.FC<InputProps> = ({
 
   const formatCurrency = (value: string): string => {
     const numericValue = value.replace(/\D/g, "");
-
     const number = Number(numericValue);
-
-    if (isNaN(number)) return "";
 
     const valueInCents = number / 100;
 
@@ -48,6 +46,34 @@ const Input: React.FC<InputProps> = ({
       style: "currency",
       currency: "BRL",
     });
+  };
+
+  const unformatCurrency = (value: string): string => {
+    const numericValue = value.replace(/\D/g, "");
+    const number = Number(numericValue);
+
+    if (isNaN(number)) return "";
+
+    return (number / 100).toFixed(2);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!onChange) return;
+
+    if (currencyInput) {
+      const numericValue = unformatCurrency(e.target.value);
+
+      onChange({
+        ...e,
+        target: {
+          ...e.target,
+          value: numericValue,
+        },
+      });
+      return;
+    }
+
+    onChange(e);
   };
 
   const formatInputValue = (valueParam: string) => {
@@ -63,7 +89,12 @@ const Input: React.FC<InputProps> = ({
   return (
     <div className="flex flex-col gap-2">
       <label className={labelStyle()}>{label}</label>
-      <input className={input()} value={formattedValue} {...rest} />
+      <input
+        className={input()}
+        value={formattedValue}
+        onChange={handleChange}
+        {...rest}
+      />
       {error && (
         <span className="text-red-500 text-sm outline-gray-200 focus:outline-red-500">
           {error}
