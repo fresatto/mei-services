@@ -10,7 +10,7 @@ const Header: React.FC = () => {
           Cadastrados
         </Link>
         <Link
-          href="/about"
+          href="/contracted"
           className="text-gray-300 font-baloo-2 hover:text-white"
         >
           Contratados
