@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ComponentProps, useState } from "react";
+import React, { ComponentProps } from "react";
 import { tv } from "tailwind-variants";
 
 type InputProps = {
@@ -18,7 +18,7 @@ const inputStyles = tv({
   variants: {
     isError: {
       true: {
-        input: "border-red-500",
+        input: "border-red-500!",
       },
     },
   },
@@ -28,10 +28,9 @@ const Input: React.FC<InputProps> = ({
   label,
   error,
   currencyInput,
+  value,
   ...rest
 }) => {
-  const [inputValue, setInputValue] = useState("");
-
   const { labelStyle, input } = inputStyles({
     isError: !!error,
   });
@@ -51,25 +50,20 @@ const Input: React.FC<InputProps> = ({
     });
   };
 
-  const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const text = e.target.value;
-
+  const formatInputValue = (valueParam: string) => {
     if (currencyInput) {
-      const formattedText = formatCurrency(text);
-
-      setInputValue(formattedText);
+      return formatCurrency(valueParam);
     }
+
+    return valueParam;
   };
+
+  const formattedValue = formatInputValue(String(value ?? ""));
 
   return (
     <div className="flex flex-col gap-2">
       <label className={labelStyle()}>{label}</label>
-      <input
-        className={input()}
-        onChange={handleChangeText}
-        value={inputValue}
-        {...rest}
-      />
+      <input className={input()} value={formattedValue} {...rest} />
       {error && (
         <span className="text-red-500 text-sm outline-gray-200 focus:outline-red-500">
           {error}
