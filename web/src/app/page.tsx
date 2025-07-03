@@ -1,25 +1,17 @@
 "use client";
-import { useState } from "react";
+
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 
 import PageTitle from "@/components/PageTitle";
 import { Service } from "@/dtos/Service";
+import api from "@/services/api";
 
 export default function Page() {
-  const [services] = useState<Service[]>([
-    {
-      id: 1,
-      title: "Serviço 1",
-      price: 100,
-      description: "Descrição do serviço 1",
-    },
-    {
-      id: 2,
-      title: "Serviço 2",
-      price: 200,
-      description: "Descrição do serviço 2",
-    },
-  ]);
+  const { data: services, isPending } = useQuery<Service[]>({
+    queryKey: ["services"],
+    queryFn: () => api.get("/services").then((res) => res.data),
+  });
 
   return (
     <>
@@ -31,19 +23,23 @@ export default function Page() {
       </div>
 
       <div className="flex flex-col gap-4">
-        {services.map((service) => (
-          <div key={service.id} className="bg-gray-100 p-4 rounded-lg gap-1">
-            <h2 className="text-xl font-baloo font-bold text-gray-700">
-              {service.title}
-            </h2>
-            <p className="text-md font-roboto text-gray-500">
-              {service.description}
-            </p>
-            <p className="text-lg font-baloo-2 font-bold text-orange-500">
-              {service.price}
-            </p>
-          </div>
-        ))}
+        {isPending ? (
+          <div>Carregando...</div>
+        ) : (
+          services?.map((service) => (
+            <div key={service.id} className="bg-gray-100 p-4 rounded-lg gap-1">
+              <h2 className="text-xl font-baloo font-bold text-gray-700">
+                {service.title}
+              </h2>
+              <p className="text-md font-roboto text-gray-500">
+                {service.description}
+              </p>
+              <p className="text-lg font-baloo-2 font-bold text-orange-500">
+                {service.price}
+              </p>
+            </div>
+          ))
+        )}
       </div>
     </>
   );

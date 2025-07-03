@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Baloo_2, Roboto } from "next/font/google";
 
 import Header from "@/components/Header";
+import Providers from "@/providers";
 
 import "./globals.css";
 
@@ -27,12 +28,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${baloo2.variable} ${roboto.variable} antialiased`}>
-        <Header />
-        <section className="p-4 py-8">
-          <div className="max-w-7xl mx-auto">{children}</div>
-        </section>
-      </body>
+      <Providers>
+        <body className={`${baloo2.variable} ${roboto.variable} antialiased`}>
+          <Header />
+          <section className="p-4 py-8">
+            <div className="max-w-7xl mx-auto">{children}</div>
+          </section>
+        </body>
+      </Providers>
     </html>
   );
 }
