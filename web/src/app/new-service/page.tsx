@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 
 import PageTitle from "@/components/PageTitle";
 import Button from "@/components/Button";
@@ -11,14 +12,19 @@ import {
   NewServiceFormData,
   newServiceSchema,
 } from "./schema/newServiceSchema";
+import api from "@/services/api";
 
 const NewService: React.FC = () => {
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(newServiceSchema),
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: NewServiceFormData) => api.post("/services", data),
+  });
+
   const onSubmit = (data: NewServiceFormData) => {
-    console.log(data);
+    mutate(data);
   };
 
   return (
@@ -27,7 +33,7 @@ const NewService: React.FC = () => {
       <div className="flex flex-col gap-4 mt-10">
         <Controller
           control={control}
-          name="name"
+          name="title"
           render={({ field, fieldState: { error } }) => (
             <Input
               label="Nome do serviço (obrigatório)"
@@ -64,7 +70,11 @@ const NewService: React.FC = () => {
           )}
         />
 
-        <Button onClick={handleSubmit(onSubmit)} className="self-start">
+        <Button
+          onClick={handleSubmit(onSubmit)}
+          className="self-start"
+          isLoading={isPending}
+        >
           Cadastrar
         </Button>
       </div>

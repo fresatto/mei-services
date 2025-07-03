@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 export const newServiceSchema = yup.object({
-  name: yup
+  title: yup
     .string()
     .required("Campo obrigatório")
     .min(3, "Nome do serviço deve ter no mínimo 3 caracteres"),
