@@ -15,7 +15,7 @@ import { maskPhone } from "@/utils/mask";
 const ContractedServices: React.FC = () => {
   const { showToast } = useToast();
 
-  const { data, isPending } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["hires"],
     queryFn: async () => {
       try {
@@ -43,7 +43,7 @@ const ContractedServices: React.FC = () => {
     <>
       <PageTitle>Serviços contratados</PageTitle>
       <div className="flex flex-col gap-4 mt-10">
-        {isPending ? (
+        {isFetching ? (
           <PageLoading />
         ) : data?.length === 0 ? (
           <div className="flex flex-col gap-4">

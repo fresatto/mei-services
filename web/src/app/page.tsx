@@ -12,7 +12,7 @@ import { formatCurrency } from "@/utils/currency";
 export default function Page() {
   const { showToast } = useToast();
 
-  const { data: services, isLoading } = useQuery({
+  const { data: services, isFetching } = useQuery({
     queryKey: ["services"],
     queryFn: async () => {
       try {
@@ -38,7 +38,7 @@ export default function Page() {
     <>
       <PageTitle showButton>Serviços cadastrados</PageTitle>
       <div className="flex flex-col gap-4">
-        {isLoading ? (
+        {isFetching ? (
           <PageLoading />
         ) : services?.length === 0 ? (
           <div className="flex flex-col gap-4">
