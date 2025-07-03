@@ -1,12 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
 import PageTitle from "@/components/PageTitle";
 import { Service } from "@/dtos/Service";
 import api from "@/services/api";
-import Button from "@/components/Button";
 import PageLoading from "@/components/PageLoading";
 
 export default function Page() {
@@ -17,13 +15,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-10">
-        <PageTitle>Serviços cadastrados</PageTitle>
-        <Button>
-          <Link href="/new-service">Novo serviço</Link>
-        </Button>
-      </div>
-
+      <PageTitle showButton>Serviços cadastrados</PageTitle>
       <div className="flex flex-col gap-4">
         {isPending ? (
           <PageLoading />
