@@ -25,26 +25,5 @@
       "description": "Criação de APIs RESTful com Node.js"
     }
   ],
-  "hires": [
-    {
-      "serviceId": 3,
-      "name": "Gabriel Fresatto Martins",
-      "email": "gabriel@gmail.com",
-      "phone": "11941509081",
-      "id": 1
-    },
-    {
-      "serviceId": 3,
-      "name": "Idahsidhuiashuidhauis",
-      "email": "aisuhd@gmail.com",
-      "id": 2
-    },
-    {
-      "serviceId": 3,
-      "name": "Gabriel Fresarão",
-      "email": "gab@gmail.com",
-      "phone": "11941509081",
-      "id": 3
-    }
-  ]
+  "hires": []
 }
